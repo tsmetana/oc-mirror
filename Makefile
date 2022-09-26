@@ -24,7 +24,9 @@ GO_LD_EXTRAFLAGS :=-X k8s.io/component-base/version.gitMajor="1" \
                    -X k8s.io/client-go/pkg/version.buildDate="$(shell date -u +'%Y-%m-%dT%H:%M:%SZ')" \
                    -X k8s.io/client-go/pkg/version.gitTreeState="$(SOURCE_GIT_TREE_STATE)"
 
-GO_BUILD_FLAGS :=-tags 'json1'
+BTRFS_BUILD_TAG = $(shell hack/btrfs_tag.sh) $(shell hack/btrfs_installed_tag.sh)
+
+GO_BUILD_FLAGS :=-tags "json1 $(BTRFS_BUILD_TAG)"
 GO_BUILD_BINDIR :=./bin
 
 all: tidy test-unit build
